@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Precise Timer</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      font-size: 2rem;
+      text-align: center;
+      padding-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="timer">00:00:00</div>
+
+  <script>
+    const timerDisplay = document.getElementById('timer');
+    const start = performance.now();
+
+    function formatTime(ms) {
+      const totalSeconds = Math.floor(ms / 1000);
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      return `${String(hours).padStart(2, '0')}:` +
+             `${String(minutes).padStart(2, '0')}:` +
+             `${String(seconds).padStart(2, '0')}`;
+    }
+
+    function updateTimer() {
+      const elapsed = performance.now() - start;
+      timerDisplay.textContent = formatTime(elapsed);
+      requestAnimationFrame(updateTimer);
+    }
+
+    updateTimer();
+  </script>
+</body>
+</html>
+
