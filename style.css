@@ -53,7 +53,7 @@ body {
 }
 
 .countdown-time {
-    font-size: 1.8em;
+    font-size: 1em;
     color: #ffffff; /* White for the time */
     font-family: 'Courier New', Courier, monospace; /* Monospaced font for time */
 }
