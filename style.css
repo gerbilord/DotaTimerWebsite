@@ -1,0 +1,59 @@
+body {
+    background-color: #36393f; /* A dark gray similar to Discord */
+    color: #dcddde; /* Light gray text for contrast, also Discord-like */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* A clean, modern font */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#timer {
+    font-size: 4em; /* Big font size */
+    font-weight: bold;
+    text-align: center; /* Centered text */
+    margin-top: 20px; /* Space from the top */
+    margin-bottom: 30px; /* Space below the timer */
+    color: #ffffff; /* White color for the main timer */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle text shadow */
+}
+
+#countdowns {
+    display: flex; /* Arrange countdowns in a row */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: center; /* Center the countdown boxes */
+    gap: 20px; /* Spacing between countdown boxes */
+    padding: 0 20px; /* Padding on the sides of the container */
+    width: 90%; /* Max width for the countdowns container */
+    max-width: 1200px; /* Ensure it doesn't get too wide on large screens */
+}
+
+.countdown {
+    background-color: #2f3136; /* Slightly lighter dark gray for boxes */
+    border: 1px solid #40444b; /* Border for the boxes */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px; /* Padding inside the box */
+    width: 200px; /* Fixed width for each countdown box */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for a bit of depth */
+    text-align: center; /* Center text within the box */
+    transition: transform 0.2s ease-in-out; /* Smooth hover effect */
+}
+
+.countdown:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+}
+
+.countdown-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #7289da; /* Discord's blurple color for titles */
+    margin-bottom: 8px;
+    text-transform: capitalize; /* Capitalize the first letter of each word */
+}
+
+.countdown-time {
+    font-size: 1.8em;
+    color: #ffffff; /* White for the time */
+    font-family: 'Courier New', Courier, monospace; /* Monospaced font for time */
+}

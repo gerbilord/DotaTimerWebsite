@@ -14,6 +14,14 @@ createCountdown('day-night', 5 * 60 * 1000);
 
 export function createCountdown(id, reoccurringTimeMs) {
     const countdownDiv = document.createElement('div');
+    const titleDiv = document.createElement('div');
+    titleDiv.textContent = id;
+    titleDiv.className = 'countdown-title';
+    const timeDiv = document.createElement('div');
+    timeDiv.className = 'countdown-time';
+    countdownDiv.appendChild(titleDiv);
+    countdownDiv.appendChild(timeDiv);
+
     countdownDiv.id = `countdown-${id}`;
     countdownDiv.className = 'countdown';
     countdownDiv.dataset.reoccurringTimeMs = reoccurringTimeMs;
@@ -33,7 +41,7 @@ export function updateCountdowns(startTime, offsetTime, elapsedTime) {
         } else {
             remainingMs = reoccurringTimeMs - ((elapsedTime+offsetTime) % reoccurringTimeMs);
         }
-        
-        countdown.textContent = formatTime(remainingMs);
+
+        countdown.querySelector('.countdown-time').textContent = formatTime(remainingMs);
     });
 } 
