@@ -39,7 +39,7 @@ export function updateCountdowns(startTime, offsetTime, elapsedTime) {
         if(elapsedTime < 0){
             remainingMs = reoccurringTimeMs - elapsedTime;
         } else {
-            remainingMs = reoccurringTimeMs - ((elapsedTime+offsetTime) % reoccurringTimeMs);
+            remainingMs = reoccurringTimeMs - (elapsedTime % reoccurringTimeMs);
         }
 
         countdown.querySelector('.countdown-time').textContent = formatTime(remainingMs);
