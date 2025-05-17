@@ -14,7 +14,13 @@
   </style>
 </head>
 <body>
-  <div id="timer">00:00:00</div>
+  <div style="display: flex; align-items: center; gap: 20px;">
+    <button id="decreaseTimeMore" class="time-adjust-btn"><<</button>
+    <button id="decreaseTimeSecond" class="time-adjust-btn"><</button>
+    <div id="timer">00:00:00</div>
+    <button id="increaseTimeSecond" class="time-adjust-btn">></button>
+    <button id="increaseTimeMore" class="time-adjust-btn">>></button>
+  </div>
   <div id="countdowns"></div>
   <script type="module" src="timer.js"></script>
 </body>

@@ -4,7 +4,16 @@ import { formatTime } from './utils.js';
 const timerDisplay = document.getElementById('timer');
 const initialOffset = 90 * 1000; // -1:30 in milliseconds
 
-const start = performance.now() + initialOffset;
+let start = performance.now() + initialOffset;
+
+function adjustTime(seconds) {
+    start += seconds * 1000;
+}
+
+document.getElementById('decreaseTimeSecond').addEventListener('click', () => adjustTime(1));
+document.getElementById('increaseTimeSecond').addEventListener('click', () => adjustTime(-1));
+document.getElementById('decreaseTimeMore').addEventListener('click', () => adjustTime(10));
+document.getElementById('increaseTimeMore').addEventListener('click', () => adjustTime(-10));
 
 function updateTimer() {
   const elapsed = performance.now() - start;
