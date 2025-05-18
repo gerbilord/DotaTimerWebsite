@@ -40,6 +40,10 @@ body {
     transition: transform 0.2s ease-in-out; /* Smooth hover effect */
 }
 
+.countdown.muted {
+    background-color: #992222;
+}
+
 .countdown:hover {
     transform: translateY(-5px); /* Slight lift on hover */
 }
