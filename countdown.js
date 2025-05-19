@@ -9,7 +9,7 @@ createCountdown('wisdom', 7 * 60 * 1000, 60 * 1000);
 createCountdown('siege', 5 * 60 * 1000, 30 * 1000);
 createCountdown('rune', 2 * 60 * 1000, 20 * 1000);
 createCountdown('stack', 60 * 1000, 24 * 1000);
-createCountdown('tormentor', 20 * 60 * 1000, 60 * 1000);
+createCountdown('tormentor', 15 * 60 * 1000, 60 * 1000);
 // createCountdown('day', 5 * 60 * 1000, 30 * 1000);
 
 export function createCountdown(id, reoccurringTimeMs, reminderTimeMs) {
