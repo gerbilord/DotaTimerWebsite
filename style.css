@@ -17,6 +17,11 @@ body {
     margin-bottom: 30px; /* Space below the timer */
     color: #ffffff; /* White color for the main timer */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle text shadow */
+    cursor: pointer;
+}
+
+#timer.paused {
+    background-color: #992222;
 }
 
 #countdowns {
@@ -30,6 +35,7 @@ body {
 }
 
 .countdown {
+    cursor: pointer;
     background-color: #2f3136; /* Slightly lighter dark gray for boxes */
     border: 1px solid #40444b; /* Border for the boxes */
     border-radius: 8px; /* Rounded corners */
@@ -63,13 +69,13 @@ body {
 }
 
 .time-adjust-btn {
+    cursor: pointer;
     background-color: #40444b; 
     color: white;
     border: none;
     border-radius: 4px;
     padding: 10px 20px;
     font-size: 1.2em;
-    cursor: pointer;
     transition: background-color 0.2s ease;
 }
 

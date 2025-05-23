@@ -1,18 +1,44 @@
 import { formatTime } from './utils.js';
 
 const countdownsContainer = document.getElementById('countdowns');
-const mutedCountdowns = [];
+const mutedCountdowns = new Set([]);
 
-// createCountdown('bounty', 3 * 60 * 1000, 10 * 1000);
-createCountdown('lotus', 3 * 60 * 1000, 12 * 1000);
-createCountdown('wisdom', 7 * 60 * 1000, 60 * 1000);
-createCountdown('siege', 5 * 60 * 1000, 30 * 1000);
-createCountdown('rune', 2 * 60 * 1000, 20 * 1000);
-createCountdown('stack', 60 * 1000, 24 * 1000);
-createCountdown('tormentor', 15 * 60 * 1000, 60 * 1000);
+const toggleMuteCountdown = (countdownDivId) => {
+    if (mutedCountdowns.has(countdownDivId)) {
+        unmuteCountdown(countdownDivId);
+    } else {
+        muteCountdown(countdownDivId);
+    }
+}
+
+const muteCountdown = (countdownDivId) => {
+    if (!mutedCountdowns.has(countdownDivId)) {
+        const countdownDiv = document.getElementById(countdownDivId);
+        mutedCountdowns.add(countdownDivId);
+        countdownDiv.classList.add('muted');
+    }
+}
+
+const unmuteCountdown = (countdownDivId) => {
+    if (mutedCountdowns.has(countdownDivId)) {
+        const countdownDiv = document.getElementById(countdownDivId);
+        mutedCountdowns.delete(countdownDivId);
+        countdownDiv.classList.remove('muted');
+    }
+}
+
+// createCountdown( name, reoccurring time, reminderTime, disableTime)
+createCountdown('lotus', minutes(3), seconds(12), minutes(10));
+createCountdown('wisdom', minutes(7), minutes(1), minutes(22));
+createCountdown('siege', minutes(5), seconds(30), minutes(11));
+createCountdown('rune', minutes(2), seconds(20), minutes(11));
+createCountdown('stack-off', minutes(1), seconds(24), minutes(14));
+createCountdown('tormentor', minutes(20), minutes(1), minutes(23));
+// createCountdown('stack-small', 60, 10 * 1000);
 // createCountdown('day', 5 * 60 * 1000, 30 * 1000);
+// createCountdown('bounty', 3 * 60 * 1000, 10 * 1000);
 
-export function createCountdown(id, reoccurringTimeMs, reminderTimeMs) {
+export function createCountdown(id, reoccurringTimeMs, reminderTimeMs, disableTimeMs) {
     const countdownDiv = document.createElement('div');
     const titleDiv = document.createElement('div');
     titleDiv.textContent = id;
@@ -22,23 +48,15 @@ export function createCountdown(id, reoccurringTimeMs, reminderTimeMs) {
     countdownDiv.appendChild(titleDiv);
     countdownDiv.appendChild(timeDiv);
 
-    countdownDiv.id = `countdown-${id}`;
+    countdownDiv.id = `${id}`;
     countdownDiv.className = 'countdown';
     countdownDiv.dataset.reoccurringTimeMs = reoccurringTimeMs;
     countdownDiv.dataset.reminderTimeMs = reminderTimeMs;
     countdownDiv.dataset.reminderTimeLastPlayedMs = 0;
+    countdownDiv.dataset.disableTimeMs = disableTimeMs;
 
     // Toggle mute on click
-    countdownDiv.addEventListener('click', () => {
-        const index = mutedCountdowns.indexOf(countdownDiv.id);
-        if (index === -1) {
-            mutedCountdowns.push(countdownDiv.id);
-            countdownDiv.classList.add('muted'); // Optional: add muted style
-        } else {
-            mutedCountdowns.splice(index, 1);
-            countdownDiv.classList.remove('muted');
-        }
-    });
+    countdownDiv.addEventListener('click', ()=>{toggleMuteCountdown(countdownDiv.id)});
 
     countdownsContainer.appendChild(countdownDiv);
     return countdownDiv;
@@ -57,10 +75,18 @@ export function updateCountdowns(startTime, offsetTime, elapsedTime) {
             remainingMs = reoccurringTimeMs - (elapsedTime % reoccurringTimeMs);
         const reminderTimeMs = parseInt(countdown.dataset.reminderTimeMs);
         const reminderTimeLastPlayedMs = parseInt(countdown.dataset.reminderTimeLastPlayedMs);
-        
+        const disableTimeMs = parseInt(countdown.dataset.disableTimeMs);
+
+        // Only disable first time we get next to disable time.
+        if( elapsedTime > disableTimeMs &&
+            elapsedTime < disableTimeMs + seconds(2)) {
+            muteCountdown(countdown.id);
+        }
+
+        // if timer hits + is not muted
         if (Math.abs(remainingMs - reminderTimeMs) <= 1000 && 
             Math.abs(elapsedTime - reminderTimeLastPlayedMs) > 2000) {
-            if(!mutedCountdowns.includes(countdown.id)){
+            if(!mutedCountdowns.has(countdown.id)){
                 countdown.dataset.reminderTimeLastPlayedMs = elapsedTime;
                 playSoundFor(countdown.id);
             }
@@ -69,12 +95,17 @@ export function updateCountdowns(startTime, offsetTime, elapsedTime) {
 
         countdown.querySelector('.countdown-time').textContent = formatTime(remainingMs);
     });
-} 
+}
+
+function seconds(seconds){
+    return seconds * 1000;
+}
+
+function minutes(minutes){
+    return minutes * 60 * 1000
+}
 
 function playSoundFor(id) {
-
-    let fileName = id.replace("countdown-", "");
-    const audio = new Audio(`sounds/${fileName}.m4a`);
-    // const audio = new Audio(`sounds/default-beep.mp3`);
+    const audio = new Audio(`sounds/${id}.m4a`);
     audio.play();
 }
