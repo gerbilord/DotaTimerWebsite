@@ -34,6 +34,7 @@ createCountdown('siege', minutes(5), seconds(30), minutes(11));
 createCountdown('rune', minutes(2), seconds(20), minutes(11));
 createCountdown('stack-off', minutes(1), seconds(24), minutes(14));
 createCountdown('tormentor', minutes(20), minutes(1), minutes(23));
+createCountdown('rosh', minutes(17), 0, minutes(70));
 // createCountdown('stack-small', 60, 10 * 1000);
 // createCountdown('day', 5 * 60 * 1000, 30 * 1000);
 // createCountdown('bounty', 3 * 60 * 1000, 10 * 1000);
@@ -107,5 +108,13 @@ function minutes(minutes){
 
 function playSoundFor(id) {
     const audio = new Audio(`sounds/${id}.m4a`);
-    audio.play();
+
+    // Try to play .m4a
+    audio.play().catch(() => {
+        // On error (e.g. file not found), try .mp3
+        const fallbackAudio = new Audio(`sounds/${id}.mp3`);
+        fallbackAudio.play().catch(err => {
+            console.error(`Both .m4a and .mp3 failed for ${id}`, err);
+        });
+    });
 }
